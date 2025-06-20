@@ -29,7 +29,7 @@ namespace HeroAnimationTest
         private Texture2D _heroSpriteStrip;
         private int _heroHealth;
         private string _heroName;
-        private float _heroSpeed;
+        private float _heroSpeed, _heroScale;
         private float _heroX, _heroY;
         private int _animationDelay, _animationTimer, _animationIndex;
         private HeroState _animationAction;
@@ -37,6 +37,7 @@ namespace HeroAnimationTest
         private int _frameWidth , _frameHeight;
         private SpriteEffects _heroLook;
         private SpriteFont _heroFont;
+        private Vector2 _heroCenter;
 
         public Hero(float heroX, float heroY, float heroSpeed, int heroHealth, string heroName, Texture2D heroSpriteStrip, SpriteFont heroFont)
         {
@@ -63,10 +64,22 @@ namespace HeroAnimationTest
             _animationTimer = 0;
 
             _heroLook = SpriteEffects.None;
+
+            _heroScale = 3f;
+
+            _heroCenter = GetCenter();
         }
 
         private int GetHealth() {  return _heroHealth; }
         private string GetName() { return _heroName; }
+
+        private Vector2 GetCenter()
+        {
+            if (_heroLook == SpriteEffects.None)
+                return new Vector2(25, 18);
+            else
+                return new Vector2(_frameWidth - 25, 18);
+        }
 
         public void Update()
         {
@@ -83,6 +96,7 @@ namespace HeroAnimationTest
                 _heroX -= _heroSpeed;
                 _animationAction = HeroState.Move;
                 _heroLook = SpriteEffects.FlipHorizontally;
+                _heroCenter = GetCenter();
             }
             if (currentKeyboardState.IsKeyDown(Keys.S))
             {
@@ -94,6 +108,7 @@ namespace HeroAnimationTest
                 _heroX += _heroSpeed;
                 _animationAction = HeroState.Move;
                 _heroLook = SpriteEffects.None;
+                _heroCenter = GetCenter();
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Space))
@@ -147,12 +162,12 @@ namespace HeroAnimationTest
                 new Rectangle(_animationIndex * _frameWidth, (int)_animationAction * _frameHeight, _frameWidth, _frameHeight),     //subsection of the texture to draw 
                 Color.White,                    //color overlay
                 0f,                             //rotation
-                new Vector2(_frameWidth/3,_frameHeight/2),               //center of rotation
-                3f,                             //scale
+                _heroCenter,               //center of rotation
+                _heroScale,                             //scale
                 _heroLook,             //effect
                 0                               //depth
                 );
-            spriteBatch.DrawString(_heroFont, "" + _animationAction, new Vector2(_heroX, _heroY -50), Color.White);
+            spriteBatch.DrawString(_heroFont, "" + _animationAction, new Vector2(_heroX - 25, _heroY - 65), Color.White);
             spriteBatch.End();
         }
     }

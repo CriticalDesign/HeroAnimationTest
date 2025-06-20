@@ -10,7 +10,7 @@ namespace HeroAnimationTest
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private Hero _myHero1, _myHero2, _myHero3;
+        private Hero _myHero1;
 
 
         public Game1()
@@ -30,9 +30,7 @@ namespace HeroAnimationTest
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _myHero1 = new Hero(10, 10, 5, 100, "Aaron1", Content.Load<Texture2D>("GambrianDragon"), Content.Load<SpriteFont>("GameFont"));
-            _myHero2 = new Hero(110, 110, 5, 100, "Aaron2", Content.Load<Texture2D>("GambrianDragon"), Content.Load<SpriteFont>("GameFont"));
-            _myHero3 = new Hero(210, 210, 5, 100, "Aaron3", Content.Load<Texture2D>("GambrianDragon"), Content.Load<SpriteFont>("GameFont"));
+            _myHero1 = new Hero(100, 100, 5, 100, "Aaron1", Content.Load<Texture2D>("GambrianDragon"), Content.Load<SpriteFont>("GameFont"));
 
             // TODO: use this.Content to load your game content here
         }
@@ -43,8 +41,6 @@ namespace HeroAnimationTest
                 Exit();
 
             _myHero1.Update();
-            _myHero2.Update();
-            _myHero3.Update();
 
             base.Update(gameTime);
         }
@@ -53,8 +49,6 @@ namespace HeroAnimationTest
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _myHero1.Draw(_spriteBatch);
-            _myHero2.Draw(_spriteBatch);
-            _myHero3.Draw(_spriteBatch);
             base.Draw(gameTime);
         }
     }
